@@ -199,6 +199,14 @@ html.dark .vp-doc th {
   padding-bottom: 20px;
 }
 
+/* The sidebar's first group starts 10px under the navbar, where the doc column
+   starts 48px under it — so the first group heading sat 38px above the page
+   title and the "On this page" heading, and the three columns began at three
+   different heights. The same 48px puts all three on one line. */
+.VPSidebar .group:first-of-type {
+  padding-top: 48px;
+}
+
 .VPSidebarItem.level-1 .link,
 .VPSidebar a.link {
   border-radius: 12px;
