@@ -1,0 +1,38 @@
+# Pre-launch. Nothing here is meant to be found yet.
+#
+# At launch, change the `*` group's Disallow to Allow and add the sitemap line
+# back. The AI group below is a separate decision and should outlive that edit:
+# opening the docs to search engines is not the same as opening them to model
+# training.
+
+User-agent: *
+Disallow: /
+
+# Crawlers that collect for model training or answer-engine surfaces. Named
+# individually because they are only bound by their own token — leaving them to
+# the `*` group above means they walk back in the moment it opens at launch.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Bytespider
+User-agent: Amazonbot
+User-agent: meta-externalagent
+User-agent: Meta-ExternalAgent
+User-agent: FacebookBot
+User-agent: Diffbot
+User-agent: cohere-ai
+User-agent: Timpibot
+User-agent: Omgilibot
+User-agent: ImagesiftBot
+Disallow: /
+
+# Sitemap: https://docs.tickerlog.io/sitemap.xml

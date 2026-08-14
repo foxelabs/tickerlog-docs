@@ -1,0 +1,14 @@
+# Cloudflare serves these alongside the static assets.
+#
+# `noindex` belt to robots.txt's braces: robots.txt asks a crawler not to fetch
+# the page, this tells anything that fetched it anyway not to list it. It also
+# covers what a `<meta name="robots">` tag cannot — the PDFs, images and JSON a
+# search engine will happily index on their own.
+#
+# Remove the X-Robots-Tag line at launch. Leaving it while opening robots.txt
+# would be the worst of both: crawled, and then silently dropped.
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
