@@ -265,6 +265,75 @@ html.dark .VPSidebarItem.level-1.is-link.is-active > .item {
   background: rgba(115, 115, 115, 0.8);
 }
 
+/* The "Start free" call to action, drawn as a button rather than a nav link.
+   ---------------------------------------------------------------------------
+   VitePress gives a nav item no class of its own, so these rules match the
+   href instead — keep it in step with config.mjs, or the button silently
+   becomes a plain link again. Two selectors because the navbar and the mobile
+   hamburger screen render different components from the same config entry.
+
+   The geometry is the marketing site's small button (global.css `.btn--sm`):
+   8px radius, 9px/16px padding, 14px at weight 600, and the same 1px dip on
+   press. Matching it matters more than it looks — this is the one control that
+   appears on both sites, and a reader crossing between them should not have to
+   wonder whether it is the same button. */
+.VPNavBarMenuLink[href="https://app.tickerlog.io/signup"],
+.VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"] {
+  display: inline-flex;
+  align-items: center;
+  /* The theme gives every nav link `height: var(--vp-nav-height)` so the whole
+     bar is one tall hit target. Left alone, the fill would be a 64px slab and
+     the padding below would do nothing — so the height is released and the
+     item centred against its siblings instead. */
+  height: auto;
+  align-self: center;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  background: var(--vp-c-brand-1);
+  color: #fff;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Dark mode inverts it the way the marketing site does: the fill brightens and
+   the label goes dark, which reads better on a light blue than white does. */
+html.dark .VPNavBarMenuLink[href="https://app.tickerlog.io/signup"],
+html.dark .VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"] {
+  color: #0a0b10;
+}
+
+.VPNavBarMenuLink[href="https://app.tickerlog.io/signup"]:hover,
+.VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"]:hover {
+  background: var(--vp-c-brand-3);
+  color: #fff;
+}
+
+html.dark .VPNavBarMenuLink[href="https://app.tickerlog.io/signup"]:hover,
+html.dark .VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"]:hover {
+  background: var(--vp-c-brand-2);
+  color: #0a0b10;
+}
+
+.VPNavBarMenuLink[href="https://app.tickerlog.io/signup"]:active,
+.VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"]:active {
+  transform: translateY(1px);
+}
+
+/* The hamburger screen stacks its items full width with a rule between each,
+   so without this the button stretches edge to edge and sits flush against the
+   divider above it — reading as a highlighted row rather than a button. The
+   width is released, the theme's own bottom border removed, and a margin put
+   back so it is spaced off the list it no longer belongs to. */
+.VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"] {
+  display: inline-flex;
+  width: auto;
+  justify-content: center;
+  margin: 16px 0 4px;
+  border-bottom: 0;
+}
+
 /* The lockup already reads "TickerLog Docs"; the site title beside it would
    say it twice. */
 .VPNavBarTitle .title span {

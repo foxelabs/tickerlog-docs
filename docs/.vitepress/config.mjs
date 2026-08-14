@@ -52,6 +52,18 @@ export default defineConfig({
         rel: 'noopener',
         noIcon: true,
       },
+      /* The call to action, drawn as a button by style.css rather than as a
+         link. VitePress has no `class` on a nav item, so the CSS matches this
+         exact href — which means the two must stay in step. The label is the
+         marketing site's own ("Start free", Nav.astro), because two names for
+         one button is two things for a reader to reconcile. */
+      {
+        text: 'Start free',
+        link: 'https://app.tickerlog.io/signup',
+        target: '_blank',
+        rel: 'noopener',
+        noIcon: true,
+      },
     ],
 
     sidebar: [
