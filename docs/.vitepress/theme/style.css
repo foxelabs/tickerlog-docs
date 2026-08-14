@@ -18,6 +18,12 @@
     'Segoe UI', Helvetica, Arial, sans-serif;
 
   --vp-home-hero-name-color: var(--vp-c-brand-1);
+
+  /* Everything that should read as a heading rather than as prose: the page
+     headings, the sidebar group labels, and bold runs inside a paragraph. A
+     token rather than the literal repeated four times, because the whole point
+     is that they match — if they drift, the page has two blacks in it. */
+  --tl-c-heading: #17191d;
 }
 
 /* Dark mode. The page ground is near-black (10 11 16), the neutrals are a grey
@@ -32,6 +38,11 @@
    the same specificity, so a plain `.dark` here only wins if this file happens
    to load last — which it did not, and the whole block silently did nothing. */
 html.dark {
+  /* Dark mode already separates headings from prose by going brighter, not
+     darker, so the token follows the body colour here and the pure-white
+     heading rule further down does the stepping away. */
+  --tl-c-heading: var(--vp-c-text-1);
+
   --vp-c-brand-1: #3b82f6; /* primary-light */
   --vp-c-brand-2: #60a5fa;
   --vp-c-brand-3: #2563eb; /* primary */
@@ -95,8 +106,19 @@ html:not(.dark) .vp-doc h2,
 html:not(.dark) .vp-doc h3,
 html:not(.dark) .vp-doc h4,
 html:not(.dark) .vp-doc th,
-html:not(.dark) .VPHomeHero .text {
-  color: #17191d;
+html:not(.dark) .VPHomeHero .text,
+html:not(.dark) .vp-doc strong {
+  color: var(--tl-c-heading);
+}
+
+/* Two exceptions to the bold rule above, both cases where the bold run is
+   already carrying a colour that means something. A **bold link** keeps the
+   brand colour, or it stops looking like a link; and bold inside a callout
+   keeps the callout's text colour, since the box is already a tinted context
+   and a second black in it reads as a mistake. */
+html:not(.dark) .vp-doc a strong,
+html:not(.dark) .vp-doc .custom-block strong {
+  color: inherit;
 }
 
 /* Section headings go pure white in dark mode; the page title stays grey-200,
@@ -138,10 +160,19 @@ html.dark .vp-doc th {
    Group headings are 14px at weight 800 in the body text colour — the same
    Figtree weight the page headings use, which is what makes the sidebar read as
    two levels without indenting anything. */
-.VPSidebarItem.level-0 > .item > .text {
+/* The second selector is not decoration: the group containing the current page
+   carries `.has-active`, and the theme has a scoped rule for exactly that
+   (`.level-0.has-active > .item > .text[data-v-…]`). The generated attribute
+   counts as a class, so that rule scores one higher than a plain
+   `.level-0.has-active > .item > .text` and the active group would keep the
+   body colour while every other group darkened — the one heading most likely
+   to be looked at, left behind. The leading `.VPSidebar` buys back that point
+   without `!important`. */
+.VPSidebarItem.level-0 > .item > .text,
+.VPSidebar .VPSidebarItem.level-0.has-active > .item > .text {
   font-size: 14px;
   font-weight: 800;
-  color: var(--vp-c-text-1);
+  color: var(--tl-c-heading);
 }
 
 .VPSidebarItem.level-1 .link,
