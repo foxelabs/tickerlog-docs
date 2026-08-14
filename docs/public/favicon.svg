@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!--
+    The TickerLog mark: the three bars of BrandMark
+    (ui/src/components/layout/brand-mark.tsx) on the app's own primary tile.
+
+    One file, copied byte for byte into ui/public, site/public and api/public.
+    Three servers, three deploys, no shared build: change it in one and it has
+    to be changed in the other two, the same hazard as the mail templates and
+    the admin palette.
+
+    The colours are literals because a favicon is read before any stylesheet:
+    #2563eb is the primary token and #fff its foreground. Deliberately no dark
+    variant, since the tile carries its own background and reads on either.
+
+    (No CSS custom property is named in this comment on purpose. A double
+    hyphen is illegal inside an XML comment, and a browser renders the whole
+    file as a parse error rather than an icon.)
+  -->
+  <rect width="32" height="32" rx="7" fill="#2563eb"/>
+  <g fill="#fff">
+    <rect x="6" y="12" width="4.4" height="13" rx="1.8"/>
+    <rect x="13.8" y="6" width="4.4" height="19" rx="1.8"/>
+    <rect x="21.6" y="15" width="4.4" height="10" rx="1.8"/>
+  </g>
+</svg>

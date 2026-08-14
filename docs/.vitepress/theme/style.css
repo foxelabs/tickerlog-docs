@@ -1,0 +1,224 @@
+/* TickerLog docs — VitePress theme overrides.
+   ---------------------------------------------------------------------------
+   The brand blue is the app's `--primary` (ui/src/index.css), restated here.
+   Nothing propagates between the two: changing the colour there does not
+   change it here.
+
+   Type is Figtree 800 for headings, Inter for body. VitePress does not serve
+   webfonts itself — see config.mjs for where they are loaded from.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #1d4ed8;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+
+  --vp-font-family-base: Inter, ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --vp-home-hero-name-color: var(--vp-c-brand-1);
+}
+
+/* Dark mode. The page ground is near-black (10 11 16), the neutrals are a grey
+   scale off it, and the accent is the brand blue lightened one step rather than
+   a second, unrelated blue.
+
+   One deliberate oddity: the page title sits at grey-200 while the section
+   headings are pure white, so an h2 is brighter than the h1 above it. It is a
+   choice, not an oversight — see the heading rules further down.
+
+   `html.dark` rather than `.dark`: VitePress's own dark block is a bare `.dark`,
+   the same specificity, so a plain `.dark` here only wins if this file happens
+   to load last — which it did not, and the whole block silently did nothing. */
+html.dark {
+  --vp-c-brand-1: #3b82f6; /* primary-light */
+  --vp-c-brand-2: #60a5fa;
+  --vp-c-brand-3: #2563eb; /* primary */
+  --vp-c-brand-soft: rgba(59, 130, 246, 0.16);
+
+  --vp-c-bg: #0a0b10; /* background-dark */
+  --vp-c-bg-alt: #0a0b10; /* the sidebar sits on the page ground, not beside it */
+  --vp-c-bg-elv: #0f1116;
+  --vp-c-bg-soft: rgba(255, 255, 255, 0.05); /* inline-code surface */
+
+  --vp-c-divider: #26282c; /* gray-800 */
+  --vp-c-border: #26282c;
+  --vp-c-gutter: #26282c;
+
+  --vp-c-text-1: #dfe1e5; /* gray-200 */
+  --vp-c-text-2: #9fa1a5; /* gray-400 */
+  --vp-c-text-3: #717377; /* gray-500 */
+
+  /* Callouts: each colour at 20% over a much darker border of the same hue, so
+     they read as tinted glass rather than solid panels. */
+  --vp-custom-block-info-bg: rgba(37, 99, 235, 0.2);
+  --vp-custom-block-info-border: #1e3a8a;
+  --vp-custom-block-info-text: var(--vp-c-text-1);
+
+  --vp-custom-block-tip-bg: rgba(22, 163, 74, 0.2);
+  --vp-custom-block-tip-border: #14532d;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+
+  --vp-custom-block-warning-bg: rgba(202, 138, 4, 0.2);
+  --vp-custom-block-warning-border: #713f12;
+  --vp-custom-block-warning-text: var(--vp-c-text-1);
+
+  --vp-code-bg: rgba(255, 255, 255, 0.05);
+  --vp-code-block-bg: #0b0d11;
+}
+
+/* A callout should be a 16px box with a hairline on all four sides. VitePress
+   draws a thick left bar and no outline instead, which is a different object on
+   the page, so the shape is restated here — in both themes, since the geometry
+   is not a dark mode decision. */
+.vp-doc .custom-block {
+  border-radius: 16px;
+  border-width: 1px;
+  padding: 16px 20px;
+}
+
+.vp-doc .custom-block .custom-block-title {
+  font-weight: 700;
+}
+
+/* Section headings go pure white in dark mode; the page title stays grey-200,
+   so the h2s carry the scanning weight on a long reference page. */
+html.dark .vp-doc h2,
+html.dark .vp-doc h3,
+html.dark .vp-doc h4,
+html.dark .vp-doc th {
+  color: #fff;
+}
+
+/* Headings are Figtree 800, page title included. */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.VPHomeHero .name,
+.VPHomeHero .text {
+  font-family: Figtree, var(--vp-font-family-base);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* The navbar logo is a full lockup (mark + wordmark + Docs badge), so the
+   default 24px height crops it to nothing legible. 28px fits the lockup. */
+.VPNavBarTitle .logo {
+  height: 28px;
+  width: auto;
+}
+
+/* The sidebar.
+   ---------------------------------------------------------------------------
+   An item is a 12px-radius pill: 14px text at weight 400, 6px/12px/6px/16px
+   padding, muted grey when idle, and — when it is the page you are on — the
+   brand colour on a 10% wash of itself. VitePress instead marks the active item
+   with a coloured left indicator bar and no background, so the bar is removed
+   rather than left to sit under the pill.
+
+   Group headings are 14px at weight 800 in the body text colour — the same
+   Figtree weight the page headings use, which is what makes the sidebar read as
+   two levels without indenting anything. */
+.VPSidebarItem.level-0 > .item > .text {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--vp-c-text-1);
+}
+
+.VPSidebarItem.level-1 .link,
+.VPSidebar a.link {
+  border-radius: 12px;
+}
+
+.VPSidebarItem.level-1 > .item {
+  padding: 0;
+  border-radius: 12px;
+  transition: background-color 0.15s;
+}
+
+/* 1px between items. It sounds like nothing, but without it a hovered pill and
+   the active pill above it share an edge and read as one selected block. */
+.VPSidebarItem.level-1 {
+  margin-bottom: 1px;
+}
+
+.VPSidebarItem.level-1 > .item > .link > .text {
+  padding: 6px 12px 6px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--vp-c-text-2);
+}
+
+.VPSidebarItem.level-1 > .item:hover {
+  background: rgba(115, 115, 115, 0.06);
+}
+
+html.dark .VPSidebarItem.level-1 > .item:hover {
+  background: rgba(229, 231, 235, 0.05);
+}
+
+.VPSidebarItem.level-1.is-link.is-active > .item {
+  background: rgba(37, 99, 235, 0.1); /* brand at 10% */
+}
+
+html.dark .VPSidebarItem.level-1.is-link.is-active > .item {
+  background: rgba(59, 130, 246, 0.1); /* lightened brand at 10% */
+}
+
+.VPSidebarItem.level-1.is-link.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+}
+
+/* VitePress's own active marker: a bar in the gutter. With the pill behind the
+   item it reads as a second, competing mark. */
+.VPSidebarItem .indicator {
+  display: none !important;
+}
+
+/* VitePress hides the site footer on any page that has a sidebar — which here
+   is every page, so the copyright would never have been on screen. It is shown
+   again, indented past the fixed sidebar so the two do not overlap. */
+@media (min-width: 960px) {
+  /* `!important` because the rule being overridden is a *scoped* one —
+     `.VPFooter.has-sidebar[data-v-…]` — and the generated attribute selector
+     outranks anything that can be written here by hand. */
+  .VPFooter.has-sidebar {
+    display: block !important;
+    padding-left: calc(var(--vp-sidebar-width) + 32px);
+  }
+}
+
+/* The sidebar scrollbar: a thin rounded thumb over no track. Drawing it as an
+   overlay would take a JavaScript scroll-area component; the native scrollbar
+   styled to match costs nothing and behaves the same everywhere, except that
+   macOS fades it in and out on its own schedule. */
+.VPSidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(115, 115, 115, 0.5) transparent;
+}
+
+.VPSidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.VPSidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb {
+  background: rgba(115, 115, 115, 0.5);
+  border-radius: 999px;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(115, 115, 115, 0.8);
+}
+
+/* The lockup already reads "TickerLog Docs"; the site title beside it would
+   say it twice. */
+.VPNavBarTitle .title span {
+  display: none;
+}
