@@ -82,6 +82,23 @@ html.dark {
   font-weight: 700;
 }
 
+/* Headings in light mode are near-black. VitePress's own body colour is #3c3c43,
+   a blue-tinted grey that reads as soft against white — at 800 weight a heading
+   wants to be the darkest thing on the page, not a shade of the paragraph under
+   it. #17191d is a neutral near-black rather than #000, which at this weight
+   and size renders harsh and slightly haloed on a white ground.
+
+   This mirrors the dark-mode rule below: headings step away from the body
+   colour in both themes, towards white there and towards black here. */
+html:not(.dark) .vp-doc h1,
+html:not(.dark) .vp-doc h2,
+html:not(.dark) .vp-doc h3,
+html:not(.dark) .vp-doc h4,
+html:not(.dark) .vp-doc th,
+html:not(.dark) .VPHomeHero .text {
+  color: #17191d;
+}
+
 /* Section headings go pure white in dark mode; the page title stays grey-200,
    so the h2s carry the scanning weight on a long reference page. */
 html.dark .vp-doc h2,
