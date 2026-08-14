@@ -271,30 +271,27 @@ html.dark .VPSidebarItem.level-1.is-link.is-active > .item {
   }
 }
 
-/* The sidebar scrollbar: a thin rounded thumb over no track. Drawing it as an
-   overlay would take a JavaScript scroll-area component; the native scrollbar
-   styled to match costs nothing and behaves the same everywhere, except that
-   macOS fades it in and out on its own schedule. */
+/* The sidebar scrolls, but its scrollbar is not drawn.
+   ---------------------------------------------------------------------------
+   Hidden rather than styled: on Windows and Linux a permanent 6px gutter runs
+   the height of the nav whether or not there is anything to scroll to, and it
+   lands right beside the item pills, which is the one place a stray vertical
+   line reads as part of the design.
+
+   Hiding the bar removes only the bar. Wheel, trackpad, drag-select, Page
+   Up/Down, Home/End, keyboard focus scrolling and the browser's own
+   scroll-into-view all continue to work, because the element is still a
+   scroll container — `overflow` is untouched.
+
+   Both properties are needed and neither is redundant: `scrollbar-width` is
+   the standard and covers Firefox, `::-webkit-scrollbar` covers Chrome, Edge
+   and Safari, which have not implemented it. */
 .VPSidebar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(115, 115, 115, 0.5) transparent;
+  scrollbar-width: none;
 }
 
 .VPSidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.VPSidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.VPSidebar::-webkit-scrollbar-thumb {
-  background: rgba(115, 115, 115, 0.5);
-  border-radius: 999px;
-}
-
-.VPSidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(115, 115, 115, 0.8);
+  display: none;
 }
 
 /* The "Start free" call to action, drawn as a button rather than a nav link.
