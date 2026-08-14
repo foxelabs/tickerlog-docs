@@ -24,6 +24,12 @@
      token rather than the literal repeated four times, because the whole point
      is that they match — if they drift, the page has two blacks in it. */
   --tl-c-heading: #17191d;
+
+  /* 320 rather than the theme's 272. With the sidebar's own 32px gutters that
+     leaves a 256px item, which is what the longer entries ("TickerLog
+     documentation", "Accounts and settings") need to sit on one line. At 272
+     the item is 208 and they wrap or crowd the right edge. */
+  --vp-sidebar-width: 320px;
 }
 
 /* Dark mode. The page ground is near-black (10 11 16), the neutrals are a grey
@@ -173,6 +179,24 @@ html.dark .vp-doc th {
   font-size: 14px;
   font-weight: 800;
   color: var(--tl-c-heading);
+  /* The 16px left padding is the alignment, not decoration. An item's label is
+     inset 16px by its pill, so a heading with no padding starts 16px to the
+     left of every item beneath it — a ragged left edge down the whole sidebar.
+     Padding rather than a margin so it matches how the pill does it.
+
+     The 10px below is the gap to the first item; the theme's 4px top and bottom
+     went instead, since the group's own 24px bottom padding already spaces one
+     group off the next. */
+  padding: 0 0 10px 16px;
+  line-height: 24px;
+}
+
+/* The space between one group and the next. The theme's 24px plus the group
+   heading's own line box lands at 36; 20 puts it at 32, which is the distance
+   that makes a group read as a block rather than as a list that happens to have
+   a bold row in it. */
+.VPSidebar .VPSidebarItem.level-0 {
+  padding-bottom: 20px;
 }
 
 .VPSidebarItem.level-1 .link,
