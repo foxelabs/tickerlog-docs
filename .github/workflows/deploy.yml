@@ -1,0 +1,52 @@
+# Builds the docs and uploads them to Cloudflare on every push to main.
+#
+# The one secret this needs is CLOUDFLARE_API_TOKEN — see README § Deployment
+# for which permissions it wants. The account id is not secret and is checked in
+# below, so a fork or a new clone needs one repository secret and nothing else.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  # Kept so a deploy can be re-run from the Actions tab without an empty commit,
+  # which is what you want when a run failed on infrastructure rather than code.
+  workflow_dispatch:
+
+# One deploy at a time. Two pushes in quick succession would otherwise race, and
+# the loser would be whichever upload happened to finish last rather than
+# whichever commit is newer. In-flight runs are cancelled rather than queued:
+# the older commit's output is about to be replaced anyway.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Wrangler authenticates with the API token below, not with the workflow's
+    # GITHUB_TOKEN, which therefore needs nothing beyond reading the checkout.
+    permissions:
+      contents: read
+    env:
+      CLOUDFLARE_ACCOUNT_ID: c6279ca6d2a40dbe35186136bbe49cde
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      # `npm ci` rather than `npm install`: it installs the lockfile exactly and
+      # fails if package.json has drifted from it, so a deploy cannot quietly
+      # pick up a different VitePress than the one the site was last built with.
+      - run: npm ci
+
+      - run: npm run build
+
+      # `wrangler deploy` directly rather than `npm run deploy`, which would
+      # rebuild what the previous step just built.
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

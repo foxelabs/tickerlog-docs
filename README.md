@@ -50,9 +50,20 @@ rather than failing the build.
 
 ## Deployment — Cloudflare Workers
 
+**Pushing to `main` deploys.** `.github/workflows/deploy.yml` builds and uploads
+on every push, and can be re-run by hand from the Actions tab. Deploying
+locally is the fallback, for when the site has to go out without a commit:
+
 ```bash
 npm run deploy   # builds, then uploads docs/.vitepress/dist
 ```
+
+The workflow needs one repository secret, **`CLOUDFLARE_API_TOKEN`** — created
+at *Cloudflare Dashboard → My Profile → API Tokens → Create Token*, from the
+**Edit Cloudflare Workers** template, scoped to the TickerLog account. Nothing
+else is secret: the account id is in the workflow file, and there are no build
+time variables. Rotating the token is a Dashboard change plus a secret update,
+with no code change.
 
 `wrangler.toml` is the source of truth, including the `docs.tickerlog.io`
 custom domain — a route set in the Dashboard alone is dropped by the next
