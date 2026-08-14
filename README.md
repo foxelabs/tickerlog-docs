@@ -48,28 +48,32 @@ rather than failing the build.
 - **No "copy page as Markdown" or LLM hand-off menu.** If it is wanted, a
   `llms.txt` or a per-page copy button has to be built.
 
-## Deployment — Vercel
+## Deployment — Cloudflare Workers
 
-`vercel.json` holds the whole configuration, so importing the repo needs no
-dashboard fields:
+```bash
+npm run deploy   # builds, then uploads docs/.vitepress/dist
+```
 
-| Setting | Value |
-|---|---|
-| Build command | `npm run build` |
-| Output directory | `docs/.vitepress/dist` |
-| Clean URLs | on — matches `cleanUrls: true` in `config.mjs` |
-| Trailing slash | off |
+`wrangler.toml` is the source of truth, including the `docs.tickerlog.io`
+custom domain — a route set in the Dashboard alone is dropped by the next
+deploy. There is no `main` and no Worker script: an assets-only Worker is served
+straight from Cloudflare's asset storage, so no request is billed as an
+invocation.
 
-Hashed assets under `/assets/` are served immutable for a year; everything else
-keeps Vercel's default revalidation, so a deploy publishes new HTML immediately.
+Two settings there are load-bearing rather than taste:
 
-After the first deploy, point `docs.tickerlog.io` at the project in **Settings →
-Domains**. There is nothing server-side — the output is static files, and a
-rollback is a redeploy of the previous build.
+- `html_handling = "drop-trailing-slash"` matches `cleanUrls: true` in
+  `config.mjs`. The build writes flat `start/first-trade.html` files and links
+  to them without the extension, so `/start/first-trade` must serve the file and
+  `/start/first-trade/` must redirect to it. Cloudflare's default serves both,
+  which is two URLs for one page.
+- `not_found_handling = "404-page"` serves the themed `404.html`. Without it an
+  unknown path gets Cloudflare's generic 404, with no nav and no way back in.
 
-An alternative, if Vercel is ever dropped: GitHub Pages, with a workflow that
-uploads the same directory. On the custom domain no `base` is needed; on
-`<user>.github.io/<repo>` set `base: '/<repo>/'` in `config.mjs`.
+Nothing runs server-side, so a rollback is a redeploy of the previous build.
+Note the free plan permits this: Cloudflare has no non-commercial restriction on
+static assets, where Vercel's Hobby plan does and would rule out a paid
+product's documentation.
 
 ---
 

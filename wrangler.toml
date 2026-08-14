@@ -1,0 +1,36 @@
+# Cloudflare Workers config for the documentation site.
+#
+# This file IS committed, so nothing secret goes in it — and nothing needs to:
+# the docs are static files with no server side, no bindings and no secrets.
+#
+#   npm run deploy        # builds, then uploads dist to Cloudflare
+#
+# There is no `main`. A Worker with only an [assets] block is served entirely
+# from Cloudflare's asset storage, with no script to invoke and no request
+# billed against the free plan's Worker invocations.
+name = "tickerlog-docs"
+compatibility_date = "2026-08-11"
+compatibility_flags = []
+
+[assets]
+directory = "./docs/.vitepress/dist"
+
+# `drop-trailing-slash` is the counterpart of `cleanUrls: true` in
+# config.mjs: VitePress writes flat `start/first-trade.html` files and links to
+# them without the extension, so /start/first-trade must serve that file, and
+# /start/first-trade/ must redirect to it rather than 404. The Cloudflare
+# default, `auto-trailing-slash`, would serve the page at both paths — two URLs
+# for one page, which search engines then have to reconcile.
+html_handling = "drop-trailing-slash"
+
+# VitePress emits its own themed 404.html. Without this, an unknown path gets
+# Cloudflare's generic 404 instead, with no nav and no way back into the docs.
+not_found_handling = "404-page"
+
+# The custom domain lives here rather than only in the Dashboard: a deploy takes
+# this file as the source of truth, so a route set in the UI alone is dropped by
+# the next one.
+[[routes]]
+pattern = "docs.tickerlog.io"
+zone_name = "tickerlog.io"
+custom_domain = true
