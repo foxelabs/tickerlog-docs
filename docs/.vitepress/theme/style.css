@@ -4,8 +4,10 @@
    Nothing propagates between the two: changing the colour there does not
    change it here.
 
-   Type is Figtree 800 for headings, Inter for body. VitePress does not serve
-   webfonts itself — see config.mjs for where they are loaded from.
+   Type is Figtree throughout — headings at 800, body at 400 — matching the app
+   and the marketing site, which each carry their own copy of that decision.
+   Inter was the body face until the three were brought into line. VitePress does
+   not serve webfonts itself — see config.mjs for where it is loaded from.
    --------------------------------------------------------------------------- */
 
 :root {
@@ -14,8 +16,15 @@
   --vp-c-brand-3: #1d4ed8;
   --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
 
-  --vp-font-family-base: Inter, ui-sans-serif, system-ui, -apple-system,
+  --vp-font-family-base: Figtree, ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* Prose is pure black in light mode, as it is in the app and on the marketing
+     site. VitePress's own #3c3c43c7 is a translucent blue-grey. The secondary
+     and tertiary greys below it are left alone — they carry state (an idle
+     sidebar item, a caption), and black there claims an emphasis that is not
+     meant. */
+  --vp-c-text-1: #000;
 
   --vp-home-hero-name-color: var(--vp-c-brand-1);
 
@@ -23,7 +32,7 @@
      headings, the sidebar group labels, and bold runs inside a paragraph. A
      token rather than the literal repeated four times, because the whole point
      is that they match — if they drift, the page has two blacks in it. */
-  --tl-c-heading: #17191d;
+  --tl-c-heading: #000;
 
   /* 320 rather than the theme's 272. With the sidebar's own 32px gutters that
      leaves a 256px item, which is what the longer entries ("TickerLog
@@ -48,6 +57,7 @@ html.dark {
      darker, so the token follows the body colour here and the pure-white
      heading rule further down does the stepping away. */
   --tl-c-heading: var(--vp-c-text-1);
+
 
   --vp-c-brand-1: #3b82f6; /* primary-light */
   --vp-c-brand-2: #60a5fa;
@@ -95,18 +105,16 @@ html.dark {
   padding: 16px 20px;
 }
 
+/* Bold is 800 across all three apps, so a callout title matches a heading. */
 .vp-doc .custom-block .custom-block-title {
-  font-weight: 700;
+  font-weight: 800;
 }
 
-/* Headings in light mode are near-black. VitePress's own body colour is #3c3c43,
-   a blue-tinted grey that reads as soft against white — at 800 weight a heading
-   wants to be the darkest thing on the page, not a shade of the paragraph under
-   it. #17191d is a neutral near-black rather than #000, which at this weight
-   and size renders harsh and slightly haloed on a white ground.
-
-   This mirrors the dark-mode rule below: headings step away from the body
-   colour in both themes, towards white there and towards black here. */
+/* Headings in light mode are pure black, by instruction, and so is the prose
+   under them — so in this theme the two no longer step apart, and light mode is
+   flat black where dark mode keeps its hierarchy. It was #17191d, a neutral
+   near-black picked because #000 at 800 weight can render harsh on white; the
+   app and the marketing site now both use #000 and matching them won. */
 html:not(.dark) .vp-doc h1,
 html:not(.dark) .vp-doc h2,
 html:not(.dark) .vp-doc h3,
@@ -136,14 +144,14 @@ html.dark .vp-doc th {
   color: #fff;
 }
 
-/* Headings are Figtree 800, page title included. */
+/* Headings are 800, page title included. Figtree is now the only family, so
+   there is no font-family to switch here — only the weight. */
 .vp-doc h1,
 .vp-doc h2,
 .vp-doc h3,
 .vp-doc h4,
 .VPHomeHero .name,
 .VPHomeHero .text {
-  font-family: Figtree, var(--vp-font-family-base);
   font-weight: 800;
   letter-spacing: -0.01em;
 }

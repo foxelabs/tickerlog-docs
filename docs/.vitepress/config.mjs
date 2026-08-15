@@ -5,7 +5,7 @@ import { defineConfig } from 'vitepress'
  * links, and the head tags.
  *
  * Two things worth noting, because neither is a VitePress default:
- *   - the webfonts (Figtree, Inter) are loaded from Google Fonts here;
+ *   - the webfont (Figtree, the only family) is loaded from Google Fonts here;
  *   - the "on this page" outline is turned on explicitly.
  */
 export default defineConfig({
@@ -23,7 +23,7 @@ export default defineConfig({
       'link',
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@600;700;800&family=Inter:wght@400;500;600&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap',
       },
     ],
   ],
