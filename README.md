@@ -20,7 +20,11 @@ Everything the site is made of lives in `docs/`:
 | `docs/.vitepress/config.mjs` | Navigation, sidebar, navbar, footer, head tags. |
 | `docs/.vitepress/theme/style.css` | The palette, fonts and layout overrides. |
 | `docs/.vitepress/theme/components/` | `Card` and `CardGroup`, usable in any page. |
-| `docs/public/` | Favicon and logos, copied to the site root as-is. |
+| `docs/public/` | Favicon and logos, copied to the site root as-is. `favicon.svg` is the
+shared artwork, byte for byte the same file the app, the marketing site and the admin panel
+serve; `logo/{light,dark}.svg` nest that same file as the navbar lockup's mark and differ only
+in their wordmark and badge colours. The wordmark is Figtree 900 converted to outlines, so
+changing the words or the weight means regenerating the paths. |
 
 Adding a page means creating the `.md` file and adding it to the sidebar in
 `config.mjs`; nothing else generates or rewrites the content.
