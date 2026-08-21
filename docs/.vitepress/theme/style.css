@@ -1,6 +1,6 @@
 /* TickerLog docs — VitePress theme overrides.
    ---------------------------------------------------------------------------
-   The brand blue is the app's `--primary` (ui/src/index.css), restated here.
+   The brand petrol is the app's `--primary` (ui/src/index.css), restated here.
    Nothing propagates between the two: changing the colour there does not
    change it here.
 
@@ -11,10 +11,10 @@
    --------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-brand-1: #2563eb;
-  --vp-c-brand-2: #3b82f6;
-  --vp-c-brand-3: #1d4ed8;
-  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+  --vp-c-brand-1: #0e6377;
+  --vp-c-brand-2: #1897b4;
+  --vp-c-brand-3: #0b5163;
+  --vp-c-brand-soft: rgba(14, 99, 119, 0.14);
 
   --vp-font-family-base: Figtree, ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', Helvetica, Arial, sans-serif;
@@ -42,8 +42,8 @@
 }
 
 /* Dark mode. The page ground is near-black (10 11 16), the neutrals are a grey
-   scale off it, and the accent is the brand blue lightened one step rather than
-   a second, unrelated blue.
+   scale off it, and the accent is the brand petrol lightened one step rather than
+   a second, unrelated teal.
 
    One deliberate oddity: the page title sits at grey-200 while the section
    headings are pure white, so an h2 is brighter than the h1 above it. It is a
@@ -59,10 +59,10 @@ html.dark {
   --tl-c-heading: var(--vp-c-text-1);
 
 
-  --vp-c-brand-1: #3b82f6; /* primary-light */
-  --vp-c-brand-2: #60a5fa;
-  --vp-c-brand-3: #2563eb; /* primary */
-  --vp-c-brand-soft: rgba(59, 130, 246, 0.16);
+  --vp-c-brand-1: #45b9cf; /* primary-light */
+  --vp-c-brand-2: #7fd4e4;
+  --vp-c-brand-3: #0e6377; /* primary */
+  --vp-c-brand-soft: rgba(69, 185, 207, 0.16);
 
   --vp-c-bg: #0a0b10; /* background-dark */
   --vp-c-bg-alt: #0a0b10; /* the sidebar sits on the page ground, not beside it */
@@ -79,8 +79,8 @@ html.dark {
 
   /* Callouts: each colour at 20% over a much darker border of the same hue, so
      they read as tinted glass rather than solid panels. */
-  --vp-custom-block-info-bg: rgba(37, 99, 235, 0.2);
-  --vp-custom-block-info-border: #1e3a8a;
+  --vp-custom-block-info-bg: rgba(69, 185, 207, 0.2);
+  --vp-custom-block-info-border: #0b5163;
   --vp-custom-block-info-text: var(--vp-c-text-1);
 
   --vp-custom-block-tip-bg: rgba(22, 163, 74, 0.2);
@@ -249,11 +249,11 @@ html.dark .VPSidebarItem.level-1 > .item:hover {
 }
 
 .VPSidebarItem.level-1.is-link.is-active > .item {
-  background: rgba(37, 99, 235, 0.1); /* brand at 10% */
+  background: rgba(14, 99, 119, 0.1); /* brand at 10% */
 }
 
 html.dark .VPSidebarItem.level-1.is-link.is-active > .item {
-  background: rgba(59, 130, 246, 0.1); /* lightened brand at 10% */
+  background: rgba(69, 185, 207, 0.1); /* lightened brand at 10% */
 }
 
 .VPSidebarItem.level-1.is-link.is-active > .item > .link > .text {
@@ -335,7 +335,7 @@ html.dark .VPSidebarItem.level-1.is-link.is-active > .item {
 }
 
 /* Dark mode inverts it the way the marketing site does: the fill brightens and
-   the label goes dark, which reads better on a light blue than white does. */
+   the label goes dark, which reads better on a light petrol than white does. */
 html.dark .VPNavBarMenuLink[href="https://app.tickerlog.io/signup"],
 html.dark .VPNavScreenMenuLink[href="https://app.tickerlog.io/signup"] {
   color: #0a0b10;
