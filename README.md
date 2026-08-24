@@ -41,10 +41,12 @@ rather than failing the build.
 
 ## Worth knowing
 
-- **Fonts come from Google Fonts** (Figtree 800 headings, Inter body), which is
-  a third-party request on a hostname the privacy policy currently says makes
-  none. Either self-host the two families in `docs/public/` or check the
-  policy's wording. **Still open.**
+- **The font comes from Google Fonts** — Figtree alone, at 400/500/600/700/800/900:
+  `h1`/`h2` are 900 and `h3`/`h4` are 800, matching the app and the marketing
+  site, so the request has to carry 900 or the browser synthesises it. Inter was
+  the body face and is gone. It is a third-party request on a hostname the
+  privacy policy currently says makes none. Either self-host Figtree in
+  `docs/public/` or check the policy's wording. **Still open.**
 - **Search is a local index** built at compile time — no service, no network
   call, no key.
 - **No telemetry.** Nothing writes to localStorage except VitePress's own

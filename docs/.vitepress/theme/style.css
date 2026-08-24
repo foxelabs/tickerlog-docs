@@ -4,7 +4,7 @@
    Nothing propagates between the two: changing the colour there does not
    change it here.
 
-   Type is Figtree throughout — headings at 800, body at 400 — matching the app
+   Type is Figtree throughout — h1/h2 at 900, h3/h4 at 800, body at 400 — matching the app
    and the marketing site, which each carry their own copy of that decision.
    Inter was the body face until the three were brought into line. VitePress does
    not serve webfonts itself — see config.mjs for where it is loaded from.
@@ -144,14 +144,22 @@ html.dark .vp-doc th {
   color: #fff;
 }
 
-/* Headings are 800, page title included. Figtree is now the only family, so
-   there is no font-family to switch here — only the weight. */
+/* h1 and h2 are 900, h3 and h4 are 800. The split matches the app and the
+   marketing site, where a page-leading heading and a card title are two levels
+   and one weight for both is one level. Figtree is the only family, so there is
+   no font-family to switch here — only the weight, and it has to be a real one:
+   the Google Fonts request in config.mjs asks for 900 for that reason, or the
+   browser synthesises it and every page title is a smeared 800. */
 .vp-doc h1,
 .vp-doc h2,
-.vp-doc h3,
-.vp-doc h4,
 .VPHomeHero .name,
 .VPHomeHero .text {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.vp-doc h3,
+.vp-doc h4 {
   font-weight: 800;
   letter-spacing: -0.01em;
 }
