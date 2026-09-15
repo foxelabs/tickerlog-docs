@@ -196,6 +196,26 @@ body {
 }
 .VPNavBarTitle .logo { width: 26px; height: 26px; margin-right: 0; }
 
+/* The "Docs" badge beside the wordmark — the site's neutral pill, set in the
+   kit's caps micro-label so it reads as a label rather than as a link. CSS
+   rather than markup because siteTitle is plain text. */
+.VPNavBarTitle .title::after {
+  content: 'Docs';
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--tl-border-strong);
+  border-radius: 999px;
+  background: var(--tl-tile);
+  font-family: var(--tl-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tl-ink-caps);
+}
+
 .VPNavBarMenuLink {
   font-size: 15px !important;
   font-weight: 500 !important;
