@@ -1,49 +1,63 @@
 ---
 title: "Markets"
-description: "The nine asset classes, what belongs in each, and why reclassifying a symbol reclassifies its whole history."
+description: "The nine asset classes, how a symbol gets one, and why changing a symbol's market changes its whole history."
 ---
 
 # Markets
 
-Every symbol belongs to exactly one **market**, and every trade takes its market
-from its symbol.
+Every symbol belongs to exactly one **market** (asset class), and every trade
+takes its market from its symbol. It is what the **Market** filter on Trades,
+the market badges on Symbols and on your accounts, and the by-market figures
+group by.
 
-## The nine
+## The nine markets
 
-| Market | What belongs in it |
-|---|---|
-| **Forex** | Currency pairs — `EURUSD`, `GBPJPY`. |
-| **Metals** | Gold, silver, platinum, copper. |
-| **Energies** | Oil, natural gas. |
-| **Indices** | `US100`, `GER40`, `NIFTY`. |
-| **Stocks** | Individual shares. |
-| **Crypto** | `BTCUSD`, `ETHUSD`. |
-| **Futures** | Exchange-traded futures contracts. |
-| **Options** | Options contracts. |
-| **Other** | The escape hatch. |
+| Market | What belongs in it | Examples |
+|---|---|---|
+| **Forex** | Currency pairs. | `EURUSD`, `GBPJPY` |
+| **Metals** | Gold, silver, platinum, palladium. | `XAUUSD`, `XAGUSD` |
+| **Energies** | Oil and natural gas. | `USOIL`, `UKOIL`, `NGAS` |
+| **Indices** | Index CFDs and cash indices. | `US100`, `GER40`, `NIFTY` |
+| **Stocks** | Individual shares, including Indian cash equity. | `RELIANCE` |
+| **Crypto** | Cryptocurrencies. | `BTCUSD`, `ETHUSD` |
+| **Futures** | A futures contract. | `NIFTY FUT` |
+| **Options** | An option contract. | `NIFTY 24600 PE` |
+| **Other** | Anything tickerlog could not identify. | |
 
-This list is what the dashboard's breakdown, Reports' market grouping, the
-filter popover's Market facet and the Trades table's sublabel all group by.
+## How a symbol gets its market
 
-## Why Metals and Energies rather than Commodities
+You are never asked to pick a market when you trade something new. When a
+symbol first appears — logged, imported or synced — tickerlog decides it in
+this order:
 
-Because that is the split broker instrument lists already use, and because one
-combined bucket would put gold and crude oil in the same row — which defeats the
-comparison the field exists for.
+1. **Your broker's own description**, when a broker sync reports what the
+   instrument is.
+2. **tickerlog's shared catalogue** of commonly traded instruments, which also
+   knows brokers' alternative spellings (`GOLD` is XAUUSD, `USTEC` is US100,
+   and suffixes like `XAUUSD.ecn` are recognised).
+3. **A guess from the name**, for anything not in the catalogue.
+4. **Other**, when none of those works.
 
-## Reclassifying
+A symbol that lands in **Other** is worth checking. If a later broker sync
+describes it properly, it moves out of Other on its own; a symbol already in a
+real market is never moved by a sync.
 
-The market lives on the **symbol**, not on the trade. So correcting a symbol's
-market reclassifies its entire history at once, and every report follows.
+## Futures and options are decided by the trade
 
-That is the fix when an imported symbol was guessed wrong: correct it once on
-**Trading → Symbols** rather than editing trades.
+For Indian F&O, a symbol is the **underlying** — `NIFTY`, `RELIANCE` — and the
+expiry, strike and side live on each trade. So a trade with an expiry and a
+strike is **Options**, one with an expiry only is **Futures**, and a trade with
+neither takes the underlying's market. A cash holding and an option on the same
+scrip share one symbol. See [F&O contracts](/india/fo-contracts).
 
-## Accounts do not have a market
+## Changing a symbol's market
 
-An account's markets are **derived** — the distinct classes of the instruments it
-has actually traded. An account trading three classes says three.
+Open the symbol in [Symbols](/trades/symbols), press **Edit**, and change
+**Market**. Because trades read their market from the symbol, **every past
+trade on that symbol moves with it**, in every filter and figure.
 
-There is no "primary market" to pick when you create an account, because it
-would be wrong the first time you traded something else, and it could never
-express an account that trades several.
+Accounts have no market field. The markets shown on an account are counted from
+the symbols it has actually traded, so an account that trades three markets
+shows three.
+
+Related: [Symbols](/trades/symbols) · [Glossary](/reference/glossary)

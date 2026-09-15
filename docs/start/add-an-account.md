@@ -1,79 +1,86 @@
 ---
 title: "Add a trading account"
-description: "Creating your first trading account, what real and demo mean, and how the account switcher scopes every screen."
+description: "The Add account flow: connect a broker, connect MetaTrader 5, track an account by hand, or import a statement."
 ---
 
 # Add a trading account
 
-An **account** in TickerLog is one trading account at one broker. Everything
-else hangs off it: trades belong to an account, and every figure on every screen
-is scoped to whichever account you are looking at.
+Every trade in tickerlog belongs to an account — one per broker or prop-firm
+account you trade. Adding one starts with a single question, and each answer
+asks only for what it needs.
 
-Add one from **Trading → Accounts**, or from the first-run dashboard's first
-step.
+Open it from **Add an account** on the first-run dashboard, or **Add account**
+on [Settings → Accounts](/settings/accounts).
 
-## What you enter
+## Where do you trade?
+
+The dialog is titled **Where do you trade?** and offers three ways in.
+
+| Choice | What happens next | Plan |
+|---|---|---|
+| **Connect a broker** | A searchable list of brokers. Pick yours and follow its connect steps. | Pro or Max |
+| **Track it by hand** | A short form for an account you fill in yourself. Nothing is connected. | Every plan |
+| **Import a statement** | Opens the CSV importer. | Every plan |
+
+### Connect a broker
+
+Type in the **Connect a broker** field to search. The list shows each broker's
+logo and a line on how it syncs:
+
+| Entry | Line shown | Guide |
+|---|---|---|
+| **Dhan** | Read-only. Your fills arrive hourly. | [Connect Dhan](/sync/dhan) |
+| **Upstox** | Read-only. Your fills arrive hourly. | [Connect Upstox](/sync/upstox) |
+| **Zerodha** | Reconnects each morning — your broker ends the session overnight. | [Connect Zerodha](/sync/zerodha) |
+| **MetaTrader 5** | IC Markets, Exness, FTMO… An add-on in your own terminal. | [MetaTrader 5](/sync/metatrader) |
+
+MetaTrader 5 can be found by searching for the broker or prop firm you use —
+Exness, IC Markets, FTMO, Pepperstone, XM — as well as by "MT5".
+
+- **A broker connection creates nothing until it works.** There is no form to
+  fill in first: tickerlog checks the credential with your broker, then creates
+  the account and names it from the broker's own client id.
+- **MetaTrader creates nothing here either.** The dialog gives you a key and
+  three steps; the account appears the first time your terminal sends its
+  history, named from its own login and server.
+
+### Track it by hand
+
+Opens **Track an account by hand**. No broker credentials are stored for an
+account you keep yourself.
 
 | Field | Notes |
 |---|---|
-| **Name** | Whatever you call it. "Exness Real", "FTMO Challenge #2". |
-| **Broker** | Free text. |
-| **Type** | Real or Demo — see below. |
-| **Starting capital** | The balance you began with. The equity curve is drawn from here. |
-| **Currency** | What the account is denominated in. |
+| **Account name** | Required, for example *Zerodha — Main*. **Save** stays disabled until it is filled in. |
+| **Broker** | Free text, for your own reference. |
+| **Type** | **Real** or **Demo**. Demo accounts are left out of **All Accounts** and only viewed on their own. |
+| **Currency** | The account's currency. Figures for the account are shown in it. |
+| **Starting capital** | The balance the account started with. |
 
-No broker credentials, no API key, no account number. TickerLog cannot connect
-to your broker yet, so there is nothing to connect with.
+Press **Save** to create the account.
 
-::: info
-**Markets are not a field**
+### Import a statement
 
-You do not pick which markets an account trades. TickerLog works that out from
-the instruments the account has actually traded, so an account trading three
-asset classes shows three — which a single "primary market" dropdown could never
-express, and which stops being true the moment you branch out.
-:::
+A CSV from MT4, MT5 or cTrader (and a Zerodha Console tradebook). If you already
+have an account, the importer opens straight away and asks which account to
+import into. If you have none, you first fill in the **Track an account by hand**
+form, and the importer opens as soon as you save. See
+[Import a CSV](/trades/import).
 
-## Real and demo
+## When your plan does not cover it
 
-Marking an account **Demo** does one important thing: it keeps that account's
-figures out of your combined totals.
+The dialog tells you before you press anything:
 
-The account switcher's **All Accounts** means *all your real accounts*. A demo
-balance added to a live one produces a number that describes no account you
-actually have, which is precisely what the switcher exists to prevent. A demo
-account is only ever viewed on its own.
+- On the **Free** plan, every broker in the list carries a **Pro** badge.
+  Choosing a broker opens a screen saying **Automatic sync is part of Pro and
+  Max.** instead of the connect steps.
+- When you are at your plan's account limit, **Track it by hand** carries a
+  **Limit reached** badge, and choosing it (or importing with no account) says
+  **This would take you past the accounts your plan covers.**
+- A notice at the top of the dialog warns when you have one account slot left.
 
-## The account switcher
+Archived accounts do not count towards the limit, so archiving a finished
+account frees a slot. Demo accounts do count. See
+[Plan limits](/reference/plan-limits).
 
-It sits at the top of the sidebar, above the search box, because the account
-governs everything below it — including what the search finds.
-
-It groups into **All Accounts**, then **REAL**, then **DEMO**, and ends with
-*Manage accounts*.
-
-Change it and every screen follows: the dashboard, trades, calendar, reports,
-review, journal, and the trade count badge in the sidebar.
-
-::: tip
-There is deliberately no account filter in the filter popover. One global scope
-and a per-screen account filter would be two controls doing one job, with no
-rule for which wins.
-:::
-
-## Archiving and deleting
-
-Two different verbs, and the difference matters:
-
-- **Archive** hides the account and its whole history from every screen and
-  every figure. It is **reversible** — archived accounts get their own group on
-  the Accounts screen, with Restore.
-- **Delete** is permanent, and takes the account's trades and their journal
-  entries with it.
-
-Archive asks for confirmation even if you have turned *Confirm before deleting*
-off. That setting is about deletes; archiving is the reversible verb whose
-*consequences* are the surprise, because every all-time figure you have moves
-the moment you press it.
-
-Next: [log your first trade](/start/first-trade).
+Next: [Log your first trade](/start/first-trade)

@@ -1,71 +1,132 @@
 ---
 title: "CSV format"
-description: "The column names TickerLog recognises when importing, how headers are matched, and what each field requires."
+description: "Every column name tickerlog recognises when importing a trade list or a fills file, how headers are matched, and the columns of tickerlog's own export."
 ---
 
 # CSV format
 
-TickerLog matches CSV columns **by name**, not by position, so you can import a
-broker statement without rearranging it.
+This page lists every header the [CSV importer](/trades/import) understands. You rarely need it — broker statements usually match already — but it's the place to look when the preview lists a column under **Columns we ignored**.
 
 ## How headers are matched
 
-Each header is lowercased and stripped of everything that is not a letter or a
-digit before it is compared. So `P&L (USD)`, `pnl_usd` and `PnL` all reduce to
-the same thing, and you do not need to worry about spacing, case or punctuation.
+- **Case, spaces and punctuation are ignored.** Everything except letters and digits is stripped before matching, so `Open Time`, `open_time` and `OPENTIME` are the same name, and `P&L (USD)` becomes `plusd`.
+- **The first matching column wins.** If a file has both `Open Time` and `Time`, the first of them in the file is used.
+- **Column order doesn't matter**, and extra columns are ignored.
+- The file should have a header row first. A byte-order mark added by Excel is handled, and blank lines are skipped.
 
-If a file carries two columns that both match the same field — `Open Time` and
-`Time`, say — **the first one wins**. The leftmost is almost always the more
-specific.
+In the tables below, aliases are shown in their stripped form.
 
-## Recognised columns
+## Trade lists
 
-| Field | Accepted header names |
+One row per trade. Used for MT4, MT5 and cTrader statements and for tickerlog's own export.
+
+### Required columns
+
+| Field | Accepted headers |
 |---|---|
-| **Entry time** | `Date`, `Entry Time`, `Open Time`, `Opening Time`, `Time`, `Datetime`, `Entry Date` |
-| **Exit time** | `Exit Time`, `Close Time`, `Closing Time`, `Exit Date` |
-| **Duration** | `Duration`, `Duration (min)`, `Duration Minutes`, `Time in Trade` |
-| **Symbol** | `Symbol`, `Instrument`, `Ticker`, `Item`, `Market` |
-| **Direction** | `Direction`, `Side`, `Type`, `Action`, `Buy/Sell` |
-| **Entry price** | `Entry`, `Entry Price`, `Open Price`, `Price`, `Open` |
-| **Exit price** | `Exit`, `Exit Price`, `Close Price`, `Close` |
-| **Lots** | `Lots`, `Lot`, `Volume`, `Size`, `Quantity`, `Qty` |
-| **P&L** | `P&L (USD)`, `P/L`, `PnL`, `PnL USD`, `Profit`, `Profit/Loss`, `Net P&L`, `Net`, `Result` |
-| **Pips** | `Pips`, `Points` |
-| **Commissions** | `Commission`, `Commissions` |
-| **Fees** | `Fees`, `Fee`, `Swap` |
-| **Strategy** | `Strategy`, `Setup`, `System` |
-| **Status** | `Status`, `State` |
-| **Notes** | `Notes`, `Comment`, `Comments`, `Remark` |
+| Entry time | `date`, `entrytime`, `opentime`, `openingtime`, `time`, `datetime`, `entrydate` |
+| Symbol | `symbol`, `instrument`, `ticker`, `item`, `market` |
+| Direction | `direction`, `side`, `type`, `action`, `buysell` |
+| Entry price | `entry`, `entryprice`, `openprice`, `price`, `open` |
+| Size | `lots`, `lot`, `volume`, `size`, `quantity`, `qty` |
 
-## Duration instead of an exit time
+### Optional columns
 
-TickerLog's own export writes a **duration in minutes** rather than an exit
-timestamp. On import, a duration is turned back into the exit time it was
-measured from.
+| Field | Accepted headers | Notes |
+|---|---|---|
+| Exit time | `exittime`, `closetime`, `closingtime`, `exitdate` | Needed for a closed trade, unless a duration is given. |
+| Duration (minutes) | `durationmin`, `duration`, `durationminutes`, `timeintrade` | Used to work out the exit time when there's no exit time column. |
+| Exit price | `exit`, `exitprice`, `closeprice`, `close` | Needed for a closed trade. |
+| P&L | `plusd`, `pl`, `pnlusd`, `pnl`, `profit`, `profitloss`, `netpnl`, `net`, `result` | Needed for a closed trade. |
+| Pips | `pips`, `points` | |
+| Commissions | `commission`, `commissions` | Stored as a positive amount whatever its sign in the file. |
+| Fees | `fees`, `fee`, `swap` | Stored as a positive amount whatever its sign in the file. |
+| Strategy | `strategy`, `setup`, `system` | A name that doesn't exist yet is created. |
+| Status | `status`, `state` | `open` or `closed`. Without it, a row with an exit price or exit time is closed. |
+| Notes | `notes`, `comment`, `comments`, `remark` | |
 
-This is what makes an export round-trip — exporting your trades and importing
-the file again is the first thing most people try, and it works.
+### Contract columns
 
-## What is required
+For options and futures. No broker statement has these; tickerlog's own export does, so an exported file imports back with its contracts intact.
 
-- **Entry time**, **symbol**, **direction**, **entry price** and **lots** on
-  every row.
-- **P&L** on any row that is closed. TickerLog
-  [records P&L rather than recomputing it](/trades/logging), so a closed trade
-  without one cannot be imported.
-- **Exit price and exit time** (or a duration) for a closed trade. A row with
-  neither is imported as an open position.
+| Field | Accepted headers | Values |
+|---|---|---|
+| Expiry | `expiry`, `expires`, `expireson`, `expirydate` | A date. An expiry alone means a future. |
+| Strike | `strike`, `strikeprice` | Requires an expiry. |
+| Option type | `optiontype`, `option`, `callput`, `right` | `CALL`, `CE` or `C`; `PUT`, `PE` or `P`. Requires a strike. |
 
-Rows that fail these are skipped and reported with their line number. The rest of
-the file still imports.
+A row with a strike or option type but no expiry, or an option type with no strike, is skipped rather than imported as the wrong trade.
 
-## Symbols and strategies
+### Values
 
-Named in the file, and **created if they are new** — see
-[Importing from CSV](/trades/import). You do not have to set them up first.
+| Field | Accepted |
+|---|---|
+| Direction | `buy`, `long`, `b`, `buy limit`, `buy stop` · `sell`, `short`, `s`, `sell limit`, `sell stop` (any case) |
+| Dates | Most standard formats, e.g. `2026-03-14 09:30` or ISO 8601. Times with no timezone are read as UTC. |
+| Numbers | Thousands separators, spaces, `$`, `€` and `£` are removed; `(12.50)` means −12.50. A comma decimal point such as `1,25` is **not** supported, because it can't be told apart from a thousands separator. |
+| Size | Must be greater than zero. |
 
-## Duplicates
+### Example
 
-A row matching an existing trade on **symbol, entry time, direction and lots** is
-skipped and counted. Re-importing an overlapping statement adds only what is new.
+```csv
+Open Time,Symbol,Type,Open Price,Close Time,Close Price,Volume,Commission,Swap,Profit
+2026-03-14 09:30,XAUUSD,buy,2412.35,2026-03-14 11:05,2418.10,0.50,3.50,0,287.50
+2026-03-15 14:10,EURUSD,sell,1.08650,,,1.00,,,
+```
+
+The first row is a closed trade; the second has no exit, so it's imported as open.
+
+## Fills files
+
+One row per execution, as in Zerodha Console's tradebook. tickerlog treats a file as a fills file when it has a trade id column and no P&L, exit price or exit time column.
+
+| Field | Required | Accepted headers |
+|---|---|---|
+| Trade id | Yes | `tradeid`, `tradenumber`, `tradeno`, `exchangetradeid` |
+| Symbol | Yes | `symbol`, `tradingsymbol`, `scrip`, `instrument`, `ticker`, `name` |
+| Direction | Yes | `tradetype`, `transactiontype`, `side`, `buysell`, `type` |
+| Quantity | Yes | `quantity`, `qty`, `filledqty`, `tradedqty` |
+| Price | Yes | `price`, `tradeprice`, `averageprice`, `avgprice`, `rate` |
+| Execution time | One of these two | `orderexecutiontime`, `tradetime`, `executiontime`, `filltimestamp`, `timestamp` |
+| Trade date | One of these two | `tradedate`, `date` |
+| Order id | No | `orderid`, `orderno`, `ordernumber` |
+| ISIN | No | `isin` |
+| Exchange | No | `exchange` |
+| Segment | No | `segment` |
+| Product | No | `product`, `producttype` |
+| Expiry | No | `expirydate`, `expiry`, `expireson` |
+
+| Field | Accepted values |
+|---|---|
+| Direction | `BUY`, `B`, `BOUGHT`, `PURCHASE` · `SELL`, `S`, `SOLD` (any case) |
+| Exchange | `NSE`, `BSE`, `NFO`, `BFO`, `MCX`, `CDS`, `BCD` |
+| Times | Read as Indian time when no timezone is given. A row with only a trade date is placed at 09:15. |
+
+How fills become trades is explained in [Importing from CSV](/trades/import#fills-files-zerodha-console).
+
+## tickerlog's own export
+
+**Export CSV** on the Trades screen, **Export** on Reports and the export in Settings → Data write these columns, in this order:
+
+| Column | Contents |
+|---|---|
+| `Date` | Entry time |
+| `Symbol` | The symbol — for an option or future, the underlying (e.g. `NIFTY`) |
+| `Asset Class` | The market, e.g. Forex |
+| `Expiry` | Contract expiry, or empty |
+| `Strike` | Option strike, or empty |
+| `Option Type` | `CALL` or `PUT`, or empty |
+| `Direction` | `Buy` or `Sell` |
+| `Entry` | Entry price |
+| `Exit` | Exit price, or empty while open |
+| `Lots` | Position size |
+| `P&L` | Result, or empty while open |
+| `Currency` | The account's currency, per row — so a file spanning accounts in different currencies stays accurate |
+| `Pips` | Pips, or empty |
+| `Duration (min)` | Minutes held, or empty |
+| `Strategy` | Strategy name, or empty |
+| `Status` | `Open` or `Closed` |
+
+Every column except `Asset Class` and `Currency` is read back by the importer, so an export can be imported again. Re-importing into the account it came from skips every row as a duplicate.
+
+Related: [Importing from CSV](/trades/import) · [Settings → Data](/settings/data)

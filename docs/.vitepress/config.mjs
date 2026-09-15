@@ -4,77 +4,64 @@ import { defineConfig } from 'vitepress'
  * Site-wide configuration: navigation groups and page order, navbar and footer
  * links, and the head tags.
  *
- * Two things worth noting, because neither is a VitePress default:
- *   - the webfont (Figtree, the only family) is loaded from Google Fonts here;
- *   - the "on this page" outline is turned on explicitly.
+ * Worth noting, because none of it is a VitePress default:
+ *   - the fonts are self-hosted (imported in theme/style.css), so there is no
+ *     font request to a third party and no <link> to Google Fonts here;
+ *   - dark is the default appearance, as it is in the app and on tickerlog.io;
+ *   - the wordmark is type (siteTitle, styled mono 700), not an image.
  */
 export default defineConfig({
-  title: 'TickerLog',
+  title: 'tickerlog docs',
+  titleTemplate: ':title · tickerlog docs',
   description:
-    'How to use TickerLog — recording trades, importing statements, and reading what your journal tells you back.',
+    'How to use tickerlog — syncing your broker, recording trades, importing statements, and reading what your journal tells you back.',
   cleanUrls: true,
   lastUpdated: false,
+  appearance: 'dark',
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap',
-      },
-    ],
+    ['meta', { name: 'theme-color', content: '#0a0a0b' }],
   ],
 
   themeConfig: {
-    logo: { light: '/logo/light.svg', dark: '/logo/dark.svg' },
+    logo: '/favicon.svg',
+    siteTitle: 'tickerlog',
 
-    /* Every nav item leaves the docs for the marketing site, so each opens in a
-       new tab — a reader following a link off a reference page should not lose
-       the page they were reading. `noIcon` drops VitePress's ↗ glyph: every
-       item here is external, so the marker would be on all of them and inform
-       nobody. */
+    /* Every nav item leaves the docs for the marketing site or the app, so each
+       opens in a new tab. `noIcon` drops VitePress's ↗ glyph: every item here is
+       external, so the marker would be on all of them and inform nobody. The
+       labels are the marketing site's own (Nav.astro). */
     nav: [
-      { text: 'Home', link: 'https://tickerlog.io', target: '_blank', rel: 'noopener', noIcon: true },
-      {
-        text: 'Features',
-        link: 'https://tickerlog.io/features',
-        target: '_blank',
-        rel: 'noopener',
-        noIcon: true,
-      },
-      {
-        text: 'Support',
-        link: 'https://tickerlog.io/contact',
-        target: '_blank',
-        rel: 'noopener',
-        noIcon: true,
-      },
-      /* The call to action, drawn as a button by style.css rather than as a
-         link. VitePress has no `class` on a nav item, so the CSS matches this
-         exact href — which means the two must stay in step. The label is the
-         marketing site's own ("Start free", Nav.astro), because two names for
-         one button is two things for a reader to reconcile. */
-      {
-        text: 'Start free',
-        link: 'https://app.tickerlog.io/signup',
-        target: '_blank',
-        rel: 'noopener',
-        noIcon: true,
-      },
+      { text: 'Features', link: 'https://tickerlog.io/features', target: '_blank', rel: 'noopener', noIcon: true },
+      { text: 'Pricing', link: 'https://tickerlog.io/pricing', target: '_blank', rel: 'noopener', noIcon: true },
+      { text: 'Contact', link: 'https://tickerlog.io/contact', target: '_blank', rel: 'noopener', noIcon: true },
+      { text: 'Log in', link: 'https://app.tickerlog.io/login', target: '_blank', rel: 'noopener', noIcon: true },
+      /* Drawn as the site's inverted button by style.css, which matches this
+         exact href — the two must stay in step. */
+      { text: 'Start free', link: 'https://app.tickerlog.io/signup', target: '_blank', rel: 'noopener', noIcon: true },
     ],
 
     sidebar: [
       {
         text: 'Getting started',
         items: [
-          { text: 'TickerLog documentation', link: '/' },
-          { text: 'What TickerLog is', link: '/start/what-it-is' },
+          { text: 'Introduction', link: '/' },
+          { text: 'What tickerlog is', link: '/start/what-it-is' },
           { text: 'Create your account', link: '/start/create-your-account' },
           { text: 'Add a trading account', link: '/start/add-an-account' },
           { text: 'Log your first trade', link: '/start/first-trade' },
+        ],
+      },
+      {
+        text: 'Auto-sync',
+        items: [
+          { text: 'How sync works', link: '/sync/overview' },
+          { text: 'MetaTrader 5', link: '/sync/metatrader' },
+          { text: 'Dhan', link: '/sync/dhan' },
+          { text: 'Upstox', link: '/sync/upstox' },
+          { text: 'Zerodha', link: '/sync/zerodha' },
+          { text: 'Troubleshooting', link: '/sync/troubleshooting' },
         ],
       },
       {
@@ -93,25 +80,36 @@ export default defineConfig({
           { text: 'Dashboard', link: '/review/dashboard' },
           { text: 'Calendar', link: '/review/calendar' },
           { text: 'Reports', link: '/review/reports' },
-          { text: 'Weekly review', link: '/review/weekly-review' },
           { text: 'Journal', link: '/review/journal' },
         ],
       },
       {
-        text: 'Accounts and settings',
+        text: 'Indian markets',
         items: [
-          { text: 'Trading accounts', link: '/settings/accounts' },
-          { text: 'Your account', link: '/settings/account' },
-          { text: 'App settings', link: '/settings/app' },
+          { text: 'How tickerlog adapts', link: '/india/overview' },
+          { text: 'F&O contracts', link: '/india/fo-contracts' },
+          { text: 'P&L, charges and expiry', link: '/india/pnl-and-charges' },
+        ],
+      },
+      {
+        text: 'Settings',
+        items: [
+          { text: 'Accounts', link: '/settings/accounts' },
+          { text: 'Profile', link: '/settings/profile' },
+          { text: 'Security', link: '/settings/security' },
+          { text: 'General', link: '/settings/general' },
+          { text: 'Data', link: '/settings/data' },
           { text: 'Plans and billing', link: '/settings/billing' },
         ],
       },
       {
         text: 'Reference',
         items: [
+          { text: 'Plan limits', link: '/reference/plan-limits' },
           { text: 'CSV format', link: '/reference/csv-format' },
-          { text: 'Keyboard shortcuts', link: '/reference/shortcuts' },
           { text: 'Markets', link: '/reference/markets' },
+          { text: 'Keyboard shortcuts', link: '/reference/shortcuts' },
+          { text: 'Glossary', link: '/reference/glossary' },
         ],
       },
     ],
@@ -127,13 +125,7 @@ export default defineConfig({
 
     editLink: undefined,
 
-    footer: {
-      message:
-        '<a href="https://tickerlog.io/legal/terms" target="_blank" rel="noopener">Terms</a> · <a href="https://tickerlog.io/legal/privacy" target="_blank" rel="noopener">Privacy</a>',
-      /* The year is stamped at build time, not read in the browser — so it
-         only advances when the site is rebuilt, which for a docs site that
-         deploys on every content change is often enough. */
-      copyright: `Copyright © ${new Date().getFullYear()}, Duck Dev LLP. All rights reserved.`,
-    },
+    /* No `footer` here: VitePress does not render it on sidebar pages, which
+       is every page. The copyright line is theme/components/DocFooter.vue. */
   },
 })

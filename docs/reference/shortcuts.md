@@ -1,39 +1,51 @@
 ---
 title: "Keyboard shortcuts"
-description: "The command palette and the two other keys worth knowing."
+description: "The search palette, the sidebar toggle, and moving around tickerlog with the keyboard."
 ---
 
 # Keyboard shortcuts
 
-TickerLog has deliberately few shortcuts. The command palette covers what a
-dozen bindings would, and is discoverable.
+tickerlog has few keyboard shortcuts. Most navigation goes through the search
+palette in the top bar.
 
 | Keys | What it does |
 |---|---|
-| <kbd>⌘ F</kbd> or <kbd>⌘ K</kbd> | Open the command palette |
-| <kbd>Esc</kbd> | Close a dialog, or the palette |
+| <kbd>⌘ B</kbd> / <kbd>Ctrl B</kbd> | Show or hide the sidebar. |
+| <kbd>Esc</kbd> | Close a dialog, a menu or the search palette. |
+| <kbd>↑</kbd> <kbd>↓</kbd> then <kbd>Enter</kbd> | Move through the search palette's results and open one. |
+| <kbd>Tab</kbd> then <kbd>Enter</kbd> or <kbd>Space</kbd> | Open a focused row on the Trades table or Settings → Accounts. |
 
-On Windows and Linux, use <kbd>Ctrl</kbd> in place of <kbd>⌘</kbd>.
+## The search palette
 
-## The command palette
+Click the search field in the top bar — **Search trades, symbols,
+strategies…** — to open it, then type.
 
-Both bindings open the same thing — <kbd>⌘F</kbd> because it is where your hands
-already go to find something, <kbd>⌘K</kbd> because it is what every other app
-uses.
+::: info
+The field shows a <kbd>⌘K</kbd> hint, but at present the palette opens by
+clicking the field rather than from the keyboard.
+:::
 
-It searches:
+Results are grouped:
 
-- **Your trades**, by symbol and strategy.
-- **Every screen**, by name — including all ten settings sections, so you can
-  reach "Appearance" or "Billing" without knowing which of the three settings
-  pages it lives under.
+| Group | What it lists | Choosing one |
+|---|---|---|
+| **Go to** | Dashboard, Trades, Journal, Calendar, Reports, Settings and Help. | Opens that screen. |
+| **Recent trades** | Your latest trades, with their P&L and date. | Opens the trade on the Trades screen. |
+| **Symbols** | Your symbols, with their market. | Opens Symbols. |
+| **Strategies** | Your strategies. | Opens Strategies. |
 
-The palette is scoped by the account switcher, like everything else: it finds
-trades on the account you are looking at.
+If nothing matches, it says **Nothing matches that.**
 
-## Why there are not more
+The palette follows the account switcher: its trades, P&L and currency are
+those of the account (or all real accounts) you are looking at. It searches your
+most recent trades only; to find an older one, use the search and filters on the
+[Trades screen](/trades/trades-screen).
 
-Every shortcut is a thing to memorise and a thing to collide with a browser
-binding. A palette that opens in one keystroke and takes plain text is faster
-than a shortcut you have to remember, and it does not need documenting screen by
-screen.
+## Hiding the sidebar
+
+On a laptop, hiding the sidebar gives a wide table its room back. Use
+<kbd>⌘ B</kbd> (<kbd>Ctrl B</kbd> on Windows and Linux) or the button at the left
+of the top bar. tickerlog remembers whether you left it open. On a phone the
+sidebar is a panel that slides in from the same button.
+
+Related: [Trades screen](/trades/trades-screen) · [Glossary](/reference/glossary)

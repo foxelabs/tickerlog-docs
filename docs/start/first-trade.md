@@ -1,75 +1,65 @@
 ---
-title: "Log your first trade"
-description: "The Log Trade dialog field by field, including what happens when you leave the exit blank."
+title: "Your first trade"
+description: "The first-run dashboard, and logging a trade by hand for the first time."
 ---
 
-# Log your first trade
+# Your first trade
 
-Open **Log Trade** from the dashboard, from the Trades screen, or from the
-command palette (<kbd>⌘F</kbd> / <kbd>Ctrl F</kbd>).
+Until you have at least one trade on any account, the Dashboard shows a short
+welcome instead of a screen full of zeros.
 
-## The fields
+## The first-run dashboard
 
-| Field | Notes |
-|---|---|
-| **Account** | Which account the trade belongs to. |
-| **Symbol** | Pick from the catalogue, or type your broker's own spelling. See below. |
-| **Direction** | Buy or Sell. |
-| **Lots** | Position size, in whatever unit your broker quotes. |
-| **Entry price** and **entry time** | When you got in. |
-| **Exit price** and **exit time** | Leave blank for a position still open. |
-| **P&L** | What the broker settled. Required once the trade is closed. |
-| **Strategy** | The setup you were following. Optional, but this is what makes the reports worth reading. |
+It is headed **Welcome to tickerlog** — *Three ways in. Any one of them is
+enough to start.* — with three steps:
 
-## You do not have to set up symbols first
+| Step | Button | What it does |
+|---|---|---|
+| **Connect an account** | **Add an account** (or **Add another** once you have one) | Opens [Where do you trade?](/start/add-an-account). The step is ticked once an account exists. |
+| **Log a trade** | **Log a trade** | Opens the Log trade dialog. *Symbol, direction, entry and exit. Everything else is optional.* |
+| **Import a statement** | **Import a CSV** | Opens the importer. You see exactly what will be imported before anything is saved. |
 
-The symbol field searches a shared catalogue of instruments, so `XAUUSD` is
-there before you have ever added it. Picking one creates it in your own symbol
-list when you **save** — not when the picker closes, so a cancelled dialog
-leaves nothing behind.
+On the Free plan, the first step says you can add an account by hand, and that
+linking your broker is part of Pro.
 
-If the catalogue has never heard of what you typed, you can use your own text.
-TickerLog guesses the market from the ticker and you can correct it later on
-**Trading → Symbols**, from where every trade that uses it follows.
+The welcome is based on your whole history, not the account selected in the
+switcher: if any account has a trade, you get the real dashboard. As soon as the
+first trade lands — logged, imported or synced — the normal
+[Dashboard](/review/dashboard) replaces it.
 
-## Leaving the trade open
+## Log a trade by hand
 
-Leave the exit blank and the trade is **Open**. Two consequences worth knowing:
+1. Press **Log a trade** on the first-run dashboard, or **Log trade** on the
+   Dashboard or Trades screen.
+2. Choose the **Account**.
+3. Pick the **Symbol**. Start typing: your own symbols are listed first, then
+   suggestions from tickerlog's shared catalogue (for example `GOLD` finds
+   XAUUSD). You do not need to set symbols up beforehand — a new one is added
+   when you save.
+4. Choose the **Direction** — Buy or Sell.
+5. Enter the size, the **Entry price** and the **Entry time**.
+6. For a closed trade, enter the **Exit price**, **Exit time** and **P&L**. Leave
+   the exit price empty to record a position that is still open.
+7. Optionally pick a **Strategy** and add **Notes**.
+8. Press **Log trade**.
 
-- **P&L is not required**, because there isn't one yet.
-- **Duration shows an em dash**, not a number. Time in an open position is a
-  ticking value, and a figure rendered once is wrong a second later.
+A confirmation appears and the trade shows on the Trades screen and in every
+figure.
 
-Open trades are excluded from anything that requires a settled result — win
-rate, profit factor, the calendar's daily P&L. They sort to the *end* of a P&L
-sort rather than being treated as zero, which would file them among your
-breakeven trades.
-
-Close a trade later by editing it and filling in the exit.
-
-## Prices and decimal places
-
-You are never asked how many decimal places an instrument quotes to. TickerLog
-takes it from the catalogue, and then **learns from what you type**: enter gold
-at `2412.345` and the instrument widens to three places everywhere.
-
-It only ever widens, never narrows. Brokers quote the same instrument to
-different precision, and rounding *down* would lose a digit you actually
-entered, where rounding up costs a trailing zero. Six decimal places is the
-ceiling.
-
-## After you save
-
-The trade appears on every screen at once — the trades list, the calendar day it
-falls on, the equity curve, and its account's balance.
-
-::: info
-**Which day a trade counts on**
-
-Bucketing is always **UTC** — the calendar day a trade lands on, and the week it
-falls in on the review screen, do not change when you change your display
-timezone. Only how timestamps are *printed* follows that setting. Your figures
-would otherwise reshuffle every time you travelled.
+::: tip Record the broker's P&L
+tickerlog stores the P&L you enter rather than working it out from the prices,
+because spreads, swaps and commission all move the real figure. Copy it from
+your platform or statement.
 :::
-Next: [the Trades screen](/trades/trades-screen), or
-[import a statement](/trades/import) if you have a history already.
+
+The size field is labelled for your market — **Lots** for a MetaTrader account,
+**Qty** for most others. Commissions, fees, order type and R multiple are behind
+**Advanced**. Every field is described in [Log a trade](/trades/logging).
+
+## Then
+
+- Write down why you took it in the [Journal](/review/journal).
+- Bring in the rest of your history with [Import a CSV](/trades/import), or
+  connect your broker with [Auto-sync](/sync/overview).
+
+Next: [The Trades screen](/trades/trades-screen)

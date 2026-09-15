@@ -2,6 +2,7 @@ import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import Card from './components/Card.vue'
 import CardGroup from './components/CardGroup.vue'
+import DocFooter from './components/DocFooter.vue'
 import SectionLabel from './components/SectionLabel.vue'
 import './style.css'
 
@@ -14,6 +15,8 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'doc-before': () => h(SectionLabel),
+      // VitePress hides its own footer on sidebar pages, which is all of them.
+      'doc-after': () => h(DocFooter),
     })
   },
 

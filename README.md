@@ -1,4 +1,4 @@
-# TickerLog docs
+# tickerlog docs
 
 The source of `docs.tickerlog.io`, built with [VitePress](https://vitepress.dev).
 
@@ -18,13 +18,9 @@ Everything the site is made of lives in `docs/`:
 | `docs/**/*.md` | The pages. Plain Markdown, edited directly. |
 | `docs/index.md` | Landing page. |
 | `docs/.vitepress/config.mjs` | Navigation, sidebar, navbar, footer, head tags. |
-| `docs/.vitepress/theme/style.css` | The palette, fonts and layout overrides. |
-| `docs/.vitepress/theme/components/` | `Card` and `CardGroup`, usable in any page. |
-| `docs/public/` | Favicon and logos, copied to the site root as-is. `favicon.svg` is the
-shared artwork, byte for byte the same file the app, the marketing site and the admin panel
-serve; `logo/{light,dark}.svg` nest that same file as the navbar lockup's mark and differ only
-in their wordmark and badge colours. The wordmark is Figtree 900 converted to outlines, so
-changing the words or the weight means regenerating the paths. |
+| `docs/.vitepress/theme/style.css` | The palette, fonts and layout overrides — a copy of the marketing site's theme. |
+| `docs/.vitepress/theme/components/` | `Card`, `CardGroup`, `SectionLabel` and `DocFooter`. |
+| `docs/public/` | `favicon.svg` — the shared artwork, byte for byte the file the app, the marketing site and the admin panel serve. The wordmark beside it in the navbar is type (`siteTitle`, mono 700), not an image. |
 
 Adding a page means creating the `.md` file and adding it to the sidebar in
 `config.mjs`; nothing else generates or rewrites the content.
@@ -35,18 +31,20 @@ heading the page opens on its first paragraph.
 
 `Card` and `CardGroup` are Vue components registered globally, so they work
 inside Markdown without an import. `Card` takes `title`, `href`, `horizontal`
-and an optional `icon` — five icons are drawn (`rocket`, `upload`,
-`chart-line`, `gear`, `book-open`), and an unrecognised name renders no icon
+and an optional `icon` — the icons are listed in `Card.vue`, each on a tinted hue tile, and an unrecognised name renders no icon
 rather than failing the build.
 
 ## Worth knowing
 
-- **The font comes from Google Fonts** — Figtree alone, at 400/500/600/700/800/900:
-  `h1`/`h2` are 900 and `h3`/`h4` are 800, matching the app and the marketing
-  site, so the request has to carry 900 or the browser synthesises it. Inter was
-  the body face and is gone. It is a third-party request on a hostname the
-  privacy policy currently says makes none. Either self-host Figtree in
-  `docs/public/` or check the policy's wording. **Still open.**
+- **The design matches tickerlog.io** ("Grotesk over mono" on the Foxe Mono Kit palette):
+  Space Grotesk for prose and headings, Inconsolata for code, micro-labels and the wordmark,
+  no brand accent, links in ink and never underlined, dark by default. Every colour in
+  `style.css` is a hand-kept copy of the site's `global.css` — nothing propagates.
+- **Fonts are self-hosted** through fontsource and bundled by Vite, so the docs make no
+  third-party request. The privacy policy on tickerlog.io says so; adding a webfont link
+  back is a legal change.
+- **VitePress's own footer never renders here** (it is hidden on sidebar pages, which is
+  every page), so the copyright line is `DocFooter.vue` in the `doc-after` slot.
 - **Search is a local index** built at compile time — no service, no network
   call, no key.
 - **No telemetry.** Nothing writes to localStorage except VitePress's own

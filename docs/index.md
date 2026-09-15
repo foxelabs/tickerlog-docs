@@ -1,51 +1,66 @@
 ---
-title: "TickerLog documentation"
-description: "How to use TickerLog — recording trades, importing statements, and reading what your journal tells you back."
+title: "tickerlog documentation"
+description: "How to use tickerlog — connecting your broker, recording trades, and reading what your journal tells you back."
 ---
 
-# TickerLog documentation
+# tickerlog documentation
 
-Record what you traded, write down why, and find out which of your setups
-actually makes money.
+tickerlog is a trading journal. Your trades arrive from your broker, from a
+statement or from you; you write down why you took them; and the app works out
+which of your setups, instruments and days actually make money.
 
 <CardGroup :cols="2">
-  <Card title="New to TickerLog" icon="rocket" href="/start/what-it-is">
-    What it is and what it deliberately is not, then add a trading account and
-    log your first trade.
+  <Card title="Getting started" icon="rocket" href="/start/what-it-is">
+    What tickerlog is, creating your account, adding a trading account and
+    logging your first trade.
   </Card>
 
-  <Card title="Already have a history" icon="upload" href="/trades/import">
-    Import a CSV from MT4, MT5 or cTrader. Every import previews before it saves
-    anything, and re-importing an overlapping statement skips what you already
-    have.
+  <Card title="Auto-sync" icon="refresh" href="/sync/overview">
+    Connect Dhan, Upstox or Zerodha, or run the tickerlog add-on in MetaTrader 5,
+    and your history arrives on its own.
+  </Card>
+
+  <Card title="Recording trades" icon="list" href="/trades/trades-screen">
+    The Trades screen, the Log trade dialog, CSV import, symbols and strategies.
   </Card>
 
   <Card title="Reading it back" icon="chart-line" href="/review/dashboard">
-    The dashboard for the shape of things, the calendar for the rhythm, reports
-    for which setup pays, and the weekly review for the part that changes how
-    you trade.
+    The dashboard for this month, the calendar and monthly review, reports for
+    the whole record, and the journal.
   </Card>
 
-  <Card title="Settings" icon="gear" href="/settings/accounts">
-    Trading accounts, your profile and password, display preferences and plans.
+  <Card title="Indian markets" icon="flag" href="/india/overview">
+    How the app adapts to NSE and BSE accounts: quantities, F&O contracts, gross
+    P&L and charges.
+  </Card>
+
+  <Card title="Settings and billing" icon="gear" href="/settings/accounts">
+    Accounts, profile, security, display preferences, your data, and plans.
   </Card>
 </CardGroup>
 
 ## How trades get in
 
-Two ways, today:
+There are four ways, and one account can use more than one of them.
 
-- **You type them.** The Log Trade dialog, from any screen.
-- **You import a CSV.** A broker statement from MT4, MT5 or cTrader, or a file
-  TickerLog exported earlier.
+| Way in | What it is | Plan |
+|---|---|---|
+| **Broker sync** | Connect Dhan, Upstox or Zerodha with a read-only credential. tickerlog reads your fills and pairs them into trades. | Pro or Max |
+| **MetaTrader EA** | A small add-on runs in your own MetaTrader 5 terminal and sends its history to tickerlog. No broker password is ever handed over. | Pro or Max |
+| **CSV import** | Upload a statement from MT4, MT5 or cTrader, a Zerodha Console tradebook, or a file tickerlog exported. You see a preview before anything is saved. | Every plan |
+| **By hand** | Log a trade yourself from the Dashboard or the Trades screen. | Every plan |
 
-Read-only broker sync is a later release. Until it ships, an account's trades
-come from you or from a file — there is nowhere to enter broker credentials,
-because nothing yet uses them.
+Duplicates are skipped: re-importing an overlapping statement, or importing a
+statement and then connecting the same account, does not double your history.
+
+- [Broker sync](/sync/overview)
+- [MetaTrader 5](/sync/metatrader)
+- [Import a CSV](/trades/import)
+- [Log a trade](/trades/logging)
 
 ## Where to start
 
-<Card title="What TickerLog is" icon="book-open" href="/start/what-it-is" horizontal>
-  Five minutes on what it records, what it works out for you, and what it
+<Card title="What tickerlog is" icon="book-open" href="/start/what-it-is" horizontal>
+  A few minutes on what it records, what it works out for you, and what it
   deliberately does not do.
 </Card>
